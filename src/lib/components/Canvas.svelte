@@ -5,16 +5,34 @@
     let ctx: CanvasRenderingContext2D;
     let isDrawing: Boolean;
     let start;
-    export let brushColor = '#000000';
+    export let brushIndex = 0;
+
+	const colors = [
+		'#000000',
+		'#FFFFFF',
+		'#FACC15',
+        '#2563EB',
+        '#DC2626',
+        '#22C55E',
+        '#94A3B8',
+        '#FB923C',
+        '#9333EA',
+        '#B75309',
+        '#A3E635',
+        '#60A5FA',
+        '#F472B6',
+        '#166534',
+        '#2DD4BF',
+        '#4F46E5'
+	]
   
     onMount(() => {
        ctx = canvas.getContext('2d');
        ctx.lineWidth = 4;
-       ctx.globalAlpha = 2000;
     })
 
     $: if(ctx) {
-        ctx.strokeStyle = brushColor;
+        ctx.strokeStyle = colors[brushIndex];
     }
 
     const handleStart = ({offsetX: x, offsetY: y}) => {
@@ -58,9 +76,5 @@
      on:mouseup={handleEnd}
      on:mouseleave={handleEnd}
     ></canvas>   
+    <button on:click={saveCanvas}>Save</button>
 </div>
-
-
-
-
-
