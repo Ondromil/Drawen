@@ -1,39 +1,23 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
+    export let colorHexValue =  '#000000';
+    export let brushSize = 4;
+    
+    let canvasWidth = 1200;
+    let canvasHeight = 600;
     let canvas: HTMLCanvasElement;
     let ctx: CanvasRenderingContext2D;
     let isDrawing: Boolean;
     let start;
-    export let brushIndex = 0;
-    export let brushSize = 4;
 
-	const colors = [
-	   '#000000',
-	   '#FFFFFF',
-	   '#FACC15',
-       '#2563EB',
-       '#DC2626',
-       '#22C55E',
-       '#94A3B8',
-       '#FB923C',
-       '#9333EA',
-       '#B75309',
-       '#A3E635',
-       '#60A5FA',
-       '#F472B6',
-       '#166534',
-       '#2DD4BF',
-       '#4F46E5'
-	]
-  
     onMount(() => {
        ctx = canvas.getContext('2d');
        ctx.imageSmoothingEnabled = true;
     })
 
     $: if(ctx) {
-        ctx.strokeStyle = colors[brushIndex];
+        ctx.strokeStyle = colorHexValue;
         ctx.lineWidth = brushSize;
     }
 
@@ -58,20 +42,24 @@
         isDrawing = false;
     }
 
-    export function saveCanvas() {
+    export const saveCanvas = () => {
         const dataUrl = canvas.toDataURL('image/jpeg');
         const link = document.createElement('a');
         link.download = 'canvas.jpg'
         link.href = dataUrl;
         link.click();
     }
+
+    export const clearCanvas =() => {
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+    }
 </script>
 
 <div class="w-full h-screen bg-slate-500">
     <canvas 
      class="bg-white m-auto" 
-     width="1200"
-     height="600"
+     width={canvasWidth}
+     height={canvasHeight}
      bind:this={canvas}
      on:mousedown={handleStart}
      on:mousemove={handleMove}

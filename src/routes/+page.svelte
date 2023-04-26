@@ -2,17 +2,17 @@
 	import Canvas from "$lib/components/Canvas.svelte"
 	import Nav from "$lib/components/Nav.svelte";
 
-	let brushIndex: number;
+	let colorHexValue: string;
 	let brushSize: number;
 </script>
 
 <main>
      <Nav 
-	    bind:index={brushIndex}
-		bind:rangeValue={brushSize}
+	    bind:colorHexValue
+		bind:brushSize
 	  />
      <Canvas 
-	    {brushIndex} 
+	    {colorHexValue} 
 		{brushSize}
 	  /> 
 </main>
