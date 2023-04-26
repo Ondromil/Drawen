@@ -3,9 +3,16 @@
 	import Nav from "$lib/components/Nav.svelte";
 
 	let brushIndex: number;
+	let brushSize: number;
 </script>
 
 <main>
-     <Nav bind:index={brushIndex}/>
-     <Canvas {brushIndex}/> 
+     <Nav 
+	    bind:index={brushIndex}
+		bind:rangeValue={brushSize}
+	  />
+     <Canvas 
+	    {brushIndex} 
+		{brushSize}
+	  /> 
 </main>

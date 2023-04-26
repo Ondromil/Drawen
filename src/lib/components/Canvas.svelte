@@ -6,33 +6,35 @@
     let isDrawing: Boolean;
     let start;
     export let brushIndex = 0;
+    export let brushSize = 4;
 
 	const colors = [
-		'#000000',
-		'#FFFFFF',
-		'#FACC15',
-        '#2563EB',
-        '#DC2626',
-        '#22C55E',
-        '#94A3B8',
-        '#FB923C',
-        '#9333EA',
-        '#B75309',
-        '#A3E635',
-        '#60A5FA',
-        '#F472B6',
-        '#166534',
-        '#2DD4BF',
-        '#4F46E5'
+	   '#000000',
+	   '#FFFFFF',
+	   '#FACC15',
+       '#2563EB',
+       '#DC2626',
+       '#22C55E',
+       '#94A3B8',
+       '#FB923C',
+       '#9333EA',
+       '#B75309',
+       '#A3E635',
+       '#60A5FA',
+       '#F472B6',
+       '#166534',
+       '#2DD4BF',
+       '#4F46E5'
 	]
   
     onMount(() => {
        ctx = canvas.getContext('2d');
-       ctx.lineWidth = 4;
+       ctx.imageSmoothingEnabled = true;
     })
 
     $: if(ctx) {
         ctx.strokeStyle = colors[brushIndex];
+        ctx.lineWidth = brushSize;
     }
 
     const handleStart = ({offsetX: x, offsetY: y}) => {
