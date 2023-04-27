@@ -23,22 +23,25 @@
 
     const handleStart = ({offsetX: x, offsetY: y}) => {
         isDrawing = true;
-        start = {x, y};
+        ctx.lineCap = "round"
+        ctx.lineTo(x, y)
+        ctx.stroke()
+        ctx.beginPath()
+        ctx.moveTo(x, y)
     }
 
     const handleMove = ({offsetX: x1, offsetY: y1}) => {
         if (isDrawing) {
-            ctx.beginPath()
-            ctx.moveTo(start.x, start.y)
+            ctx.lineCap = "round"
             ctx.lineTo(x1, y1)
-            ctx.closePath()
             ctx.stroke()
-            
-            start = {x: x1, y: y1}
+            ctx.beginPath()
+            ctx.moveTo(x1, y1)
         } 
     }
 
     const handleEnd = () => {
+        ctx.beginPath()
         isDrawing = false;
     }
 

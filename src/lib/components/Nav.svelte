@@ -2,16 +2,17 @@
     export let colorHexValue;
     export let brushSize;
 
-    function changeColor(colorIndex) {
+    let sliderValue = 4;
+
+    function changeBrushColor(colorIndex) {
         colorHexValue = colors[colorIndex];
     }
- 
-    let sliderValue = 4;
+
     function changeBrushSize() {
         brushSize = sliderValue;
     }
 
-    const colors1 = [
+    const colors = [
 	     '#000000',
 	     '#FFFFFF',
 	     '#FACC15',
@@ -20,8 +21,6 @@
        '#22C55E',
        '#94A3B8',
        '#FB923C',
-	    ]
-    const colors2 = [
        '#9333EA',
        '#B75309',
        '#A3E635',
@@ -31,7 +30,6 @@
        '#2DD4BF',
        '#4F46E5'
       ]
-      const colors = colors1.concat(colors2);
 </script>
 
 <nav class="navbar bg-base-100">
@@ -52,7 +50,7 @@
     </div>
     <div class="mr-8 block text-center">
       <p>Brush size</p>
-      <input type="range" min=1 max=50 class="range range-xs" bind:value={sliderValue} on:change={changeBrushSize}/> 
+      <input type="range" min=1 max=100 class="range range-xs" bind:value={sliderValue} on:change={changeBrushSize}/> 
     </div>
     <div class="">
       <svg height="60" width="60">
@@ -62,12 +60,12 @@
     <div class="block mr-6">
       <ul class="flex gap-1.5">
         {#each Array(8) as _, i}
-           <li><button style="background-color: {colors1[i]};" class="btn btn-square btn-sm rounded-md" on:click={() => changeColor(i)}></button></li>
+           <li><button style="background-color: {colors[i]};" class="btn btn-square btn-sm rounded-md" on:click={() => changeBrushColor(i)}></button></li>
         {/each}
       </ul>
       <ul class="flex gap-1.5">
         {#each Array(8) as _, i}
-           <li><button style="background-color: {colors2[i]};" class="btn btn-square btn-sm rounded-md" on:click={() => changeColor(i + 8)}></button></li>
+           <li><button style="background-color: {colors[i + 8]};" class="btn btn-square btn-sm rounded-md" on:click={() => changeBrushColor(i + 8)}></button></li>
         {/each}
       </ul>
     </div>
