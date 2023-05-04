@@ -14,6 +14,8 @@
     onMount(() => {
        ctx = canvas.getContext('2d');
        ctx.imageSmoothingEnabled = true;
+       ctx.fillStyle = 'white'
+       ctx.fillRect(0, 0, canvasWidth, canvasHeight)
     })
 
     $: if(ctx) {
@@ -23,7 +25,7 @@
 
     const handleStart = ({offsetX: x, offsetY: y}) => {
         isDrawing = true;
-        ctx.lineCap = "round"
+        ctx.lineCap = 'round'
         ctx.lineTo(x, y)
         ctx.stroke()
         ctx.beginPath()
@@ -32,7 +34,7 @@
 
     const handleMove = ({offsetX: x1, offsetY: y1}) => {
         if (isDrawing) {
-            ctx.lineCap = "round"
+            ctx.lineCap = 'round'
             ctx.lineTo(x1, y1)
             ctx.stroke()
             ctx.beginPath()

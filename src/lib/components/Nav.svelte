@@ -3,15 +3,45 @@
     export let brushSize;
 
     let sliderValue = 4;
+    let changeButtonText = 'Change Color';
+    let changingColor 
+    let colorSelected 
+    let inputHex = '#';
+    let visible = false;
+    let ColorIndex;
 
-    function changeBrushColor(colorIndex) {
-        colorHexValue = colors[colorIndex];
+    function handleColorButtonClick(colorIndex) {
+        if (changingColor) {
+           visible = true
+           ColorIndex = colorIndex
+        }
+        else {
+           colorHexValue = colors[colorIndex];
+        }
     }
 
     function changeBrushSize() {
         brushSize = sliderValue;
     }
 
+    function handleChangeButtonClick() {
+      if (changingColor) {
+         changingColor = false;
+         visible = false;
+         changeButtonText = 'Change Color'
+      }
+      else {
+         changeButtonText = 'Select or cancel'
+         changingColor = true
+      }
+    }
+
+    function endChange() {
+       colors[ColorIndex] = inputHex;
+       visible = false;
+       changingColor = false
+       changeButtonText = 'Change Color'
+    }
     const colors = [
 	     '#000000',
 	     '#FFFFFF',
@@ -33,7 +63,6 @@
 </script>
 
 <nav class="navbar bg-base-100">
-   <div class="flex-none">
     <div class="dropdown">
        <button class="btn btn-square btn-ghost">
          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -43,16 +72,21 @@
           <li><button on:click={null}>Clear</button></li>
           <li><a href="/about">About</a></li>
        </ul>
-     </div>
     </div>
     <div class="flex-1">
-       <p class="text-2xl ml-4">Drawen.io</p>
+       <p class="text-3xl ml-4">Drawen.io</p>
     </div>
-    <div class="mr-8 block text-center">
-      <p>Brush size</p>
-      <input type="range" min=1 max=100 class="range range-xs" bind:value={sliderValue} on:change={changeBrushSize}/> 
+    <div class="block">
+      <div class="mr-8 block text-center">
+        <p>Brush size</p>
+        <input type="range" min=1 max=100 class="range range-xs " bind:value={sliderValue} on:change={changeBrushSize}/> 
+      </div>
+      <div class="mr-8 block text-center">
+        <p>Opacity</p>
+        <input type="range" min=1 max=100 value="100" class="range range-xs"/> 
+      </div>
     </div>
-    <div class="">
+    <div>
       <svg height="60" width="60">
         <circle cx="20" cy="28" r="18" fill={colorHexValue} />
       </svg>
@@ -60,18 +94,21 @@
     <div class="block mr-6">
       <ul class="flex gap-1.5">
         {#each Array(8) as _, i}
-           <li><button style="background-color: {colors[i]};" class="btn btn-square btn-sm rounded-md" on:click={() => changeBrushColor(i)}></button></li>
+           <li><button style="background-color: {colors[i]};" class="btn btn-square btn-sm rounded-md" on:click={() => handleColorButtonClick(i)}></button></li>
         {/each}
       </ul>
       <ul class="flex gap-1.5">
         {#each Array(8) as _, i}
-           <li><button style="background-color: {colors[i + 8]};" class="btn btn-square btn-sm rounded-md" on:click={() => changeBrushColor(i + 8)}></button></li>
+           <li><button style="background-color: {colors[i + 8]};" class="btn btn-square btn-sm rounded-md" on:click={() => handleColorButtonClick(i + 8)}></button></li>
         {/each}
       </ul>
     </div>
     <div class="mr-4">
-       <button class="btn btn-circle btn-ghost w-20">
-          Change color
+       <button class="btn btn-square btn-ghost w-20" on:click={handleChangeButtonClick}>
+          {changeButtonText}
        </button>
     </div>
+    {#if visible}
+        <input type="text" placeholder="Enter hex code" maxlength="7" bind:value={inputHex} on:change={endChange} class="input input-bordered input-sm max-w-xs absolute right-44 top-28"/>
+    {/if}
 </nav>
