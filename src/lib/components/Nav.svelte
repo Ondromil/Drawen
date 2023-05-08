@@ -5,7 +5,6 @@
     let sliderValue = 4;
     let changeButtonText = 'Change Color';
     let changingColor 
-    let colorSelected 
     let inputHex = '#';
     let visible = false;
     let ColorIndex;
@@ -43,9 +42,9 @@
        changeButtonText = 'Change Color'
     }
     const colors = [
-	     '#000000',
-	     '#FFFFFF',
-	     '#FACC15',
+	    '#000000',
+	    '#FFFFFF',
+	    '#FACC15',
        '#2563EB',
        '#DC2626',
        '#22C55E',
@@ -63,20 +62,18 @@
 </script>
 
 <nav class="navbar bg-base-100">
-    <div class="dropdown">
-       <button class="btn btn-square btn-ghost">
+   <div class="dropdown">
+      <button class="btn btn-square btn-ghost">
          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-       </button>
-       <ul class="menu dropdown-content mt-5 bg-base-100 rounded-xl w-40 text-[1.3em]">
-          <li><button on:click={null}>Save Project</button></li>
-          <li><button on:click={null}>Clear</button></li>
+      </button>
+      <ul class="menu dropdown-content mt-5 bg-base-100 rounded-xl w-40 text-[1.3em]">
           <li><a href="/about">About</a></li>
-       </ul>
-    </div>
-    <div class="flex-1">
-       <p class="text-3xl ml-4">Drawen.io</p>
-    </div>
-    <div class="block">
+      </ul>
+   </div>
+   <div class="flex-1">
+      <p class="text-3xl ml-4">Drawen.io</p>
+   </div>
+   <div class="block">
       <div class="mr-8 block text-center">
         <p>Brush size</p>
         <input type="range" min=1 max=100 class="range range-xs " bind:value={sliderValue} on:change={changeBrushSize}/> 
@@ -85,13 +82,17 @@
         <p>Opacity</p>
         <input type="range" min=1 max=100 value="100" class="range range-xs"/> 
       </div>
-    </div>
-    <div>
-      <svg height="60" width="60">
-        <circle cx="20" cy="28" r="18" fill={colorHexValue} />
-      </svg>
-    </div>
-    <div class="block mr-6">
+   </div>
+   <div class="mr-6">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill={colorHexValue} version="1.1" id="Capa_1" width="50px" height="50px" viewBox="0 0 264.564 264.564" xml:space="preserve">
+         <g>
+            <g>
+               <path d="M132.281,264.564c51.24,0,92.931-41.681,92.931-92.918c0-50.18-87.094-164.069-90.803-168.891L132.281,0l-2.128,2.773    c-3.704,4.813-90.802,118.71-90.802,168.882C39.352,222.883,81.042,264.564,132.281,264.564z"/>
+            </g>
+         </g>
+     </svg>
+   </div>
+   <div class="block mr-2">
       <ul class="flex gap-1.5">
         {#each Array(8) as _, i}
            <li><button style="background-color: {colors[i]};" class="btn btn-square btn-sm rounded-md" on:click={() => handleColorButtonClick(i)}></button></li>
@@ -102,13 +103,16 @@
            <li><button style="background-color: {colors[i + 8]};" class="btn btn-square btn-sm rounded-md" on:click={() => handleColorButtonClick(i + 8)}></button></li>
         {/each}
       </ul>
-    </div>
-    <div class="mr-4">
-       <button class="btn btn-square btn-ghost w-20" on:click={handleChangeButtonClick}>
-          {changeButtonText}
-       </button>
-    </div>
-    {#if visible}
-        <input type="text" placeholder="Enter hex code" maxlength="7" bind:value={inputHex} on:change={endChange} class="input input-bordered input-sm max-w-xs absolute right-44 top-28"/>
-    {/if}
+   </div>
+   <div class="">
+      <button class="btn btn-ghost w-20" on:click={handleChangeButtonClick}>
+         {changeButtonText}
+      </button>
+   </div>
+   {#if visible}
+ 
+   {/if}
+   <div class="absolute right-20 top-28 z-10 btn btn-square">
+      <input type="color" bind:value={inputHex} on:change={endChange} class=""/>
+ </div>
 </nav>
