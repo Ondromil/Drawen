@@ -4,15 +4,16 @@
 
     export let colorHexValue =  '#000000';
     export let brushSize = 4;
+    export let opacity = 1;
     export let navVisible = true;
     
-    let canvasWidth = 1200;
-    let canvasHeight = 600;
     let canvas: HTMLCanvasElement;
     let ctx: CanvasRenderingContext2D;
     let isDrawing: Boolean;
     let buffer: HTMLCanvasElement;
     let bufferCtx: CanvasRenderingContext2D;
+    let bufferCanvasWidth = 1200;
+    let bufferCanvasHeight = 600;
 
     let dimensionsInputVisible = false;
     let inputXValue = 1200;
@@ -21,14 +22,15 @@
     onMount(() => {
        ctx = canvas.getContext('2d');
        bufferCtx = buffer.getContext('2d');
-       ctx.imageSmoothingEnabled = true;
-       ctx.fillStyle = 'white'
-       ctx.fillRect(0, 0, canvas.width, canvas.height)
+       ctx.imageSmoothingEnabled = true;          // Anti-aliasing 
+       ctx.fillStyle = 'white'                           
+       ctx.fillRect(0, 0, canvas.width, canvas.height)       // Draws white rectangle over canvas, because default canvas color after saving is black
     })
 
     $: if(ctx) {
         ctx.strokeStyle = colorHexValue;
         ctx.lineWidth = brushSize;
+        ctx.globalAlpha = opacity / 100;
     }
 
     const handleStart = ({offsetX: x, offsetY: y}) => {
@@ -40,7 +42,7 @@
         ctx.moveTo(x, y)
     }
 
-    const handleMove = ({offsetX: x, offsetY: y}) => {
+    const handleMove = ({offsetX: x, offsetY: y}) => {            // Draws line made of circles
         if (isDrawing) {
             ctx.lineCap = 'round'
             ctx.lineTo(x, y)
@@ -64,8 +66,10 @@
     }
 
     const clearCanvas =() => {
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight)
-        ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.globalAlpha = 1;
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.globalAlpha = opacity / 100;
     }
 
     const handleDimensionsButtonClick = () => {
@@ -78,19 +82,25 @@
     }
 
     const changeXDimension = () => {
-        bufferCtx.drawImage(canvas, 0, 0);
-        canvas.width = inputXValue
-        ctx.fillStyle = 'white'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-        ctx.drawImage(buffer, 0, 0);
+        if (inputXValue != null && inputXValue >= 1) {              // Canvas pernamently dissapears if value is below 1, null or not a number
+            bufferCtx.drawImage(canvas, 0, 0);
+            canvas.width = inputXValue
+            bufferCanvasWidth = inputXValue
+            ctx.fillStyle = 'white'   
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
+            ctx.drawImage(buffer, 0, 0);
+        }
     }
 
     const changeYDimension = () => {
-        bufferCtx.drawImage(canvas, 0, 0);
-        canvas.height = inputYValue
-        ctx.fillStyle = 'white'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-        ctx.drawImage(buffer, 0, 0);
+        if (inputYValue != null && inputYValue >= 1) {
+            bufferCtx.drawImage(canvas, 0, 0);
+            canvas.height = inputYValue
+            bufferCanvasHeight = inputYValue
+            ctx.fillStyle = 'white'   
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
+            ctx.drawImage(buffer, 0, 0);
+        }
     }
 
     const hideNav = () => {
@@ -131,8 +141,8 @@
     </div>
     <canvas 
      class="m-auto z-10" 
-     width={canvasWidth}
-     height={canvasHeight}
+     width=1200
+     height=600
      bind:this={canvas}
      on:mousedown={handleStart}
      on:mousemove={handleMove}
@@ -142,10 +152,11 @@
     ></canvas>  
 </div>
 
+<!-- Buffer canvas where current drawing is saved before resizing -->
 <canvas                      
    bind:this={buffer}
-   width={canvasHeight} 
-   height={canvasWidth}
+   width={bufferCanvasWidth} 
+   height={bufferCanvasHeight}
    class="hidden"
 ></canvas>
 
@@ -168,6 +179,12 @@
         height: 20px;
         display: block;
     }
+    input:focus {
+        outline: none;
+    }
+    input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }  
     span {
         background-color: rgb(42, 41, 41);
         color: #A6ADBB;

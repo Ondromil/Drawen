@@ -10,7 +10,7 @@
                     <h1 class="text-3xl"><strong>About</strong></h1>
                 </header>
                 <section class="mt-6">
-                    <p>Drawen is a canvas drawing application currently in development. <br/> As of right now, it includes custom color pallette, brush size slider and options to save, clear and resize canvas.</p>
+                    <p>Drawen is a canvas drawing application currently in development. <br/> As of right now, it includes custom color palette, brush size slider and options to save, clear and resize canvas.</p>
                 </section>
             </article>
         </div>

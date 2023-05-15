@@ -4,6 +4,7 @@
 
 	let colorHexValue: string;
 	let brushSize: number;
+	let opacity: number;
 	let navVisible: boolean;
 </script>
 
@@ -15,11 +16,13 @@
     <Nav 
 	   bind:colorHexValue
 	   bind:brushSize
+	   bind:opacity
        {navVisible}
 	/>
    <Canvas 
        bind:navVisible
 	   {colorHexValue} 
 	   {brushSize}
+	   {opacity}
     /> 
 </main>

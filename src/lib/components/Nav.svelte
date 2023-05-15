@@ -3,9 +3,11 @@
 
    export let colorHexValue: string;
    export let brushSize = 4;
+   export let opacity = 100;
    export let navVisible = true;
 
    let sliderValue = 4;
+   let opacitySliderValue = 100;
    let changeButtonText = 'Change Color';
    let changingColor;
    let inputHex = '#';
@@ -24,6 +26,10 @@
 
    function changeBrushSize() {
       brushSize = sliderValue;
+   }
+
+   function changeOpacity() {
+      opacity = opacitySliderValue;
    }
 
    function handleChangeButtonClick() {
@@ -83,8 +89,8 @@
            <input type="range" min=1 max=200 class="nav-range" bind:value={sliderValue} on:input={changeBrushSize}/> 
          </div>
          <div class="mr-8 block text-center">
-           <p>Opacity</p>
-           <input type="range" min=1 max=100 value="100" class="nav-range"/> 
+           <p>Opacity - {opacity} %</p>
+           <input type="range" min=1 max=100 class="nav-range" bind:value={opacitySliderValue} on:input={changeOpacity}/> 
          </div>
       </div>
       <div class="mr-6">
