@@ -253,8 +253,8 @@
 	on:mousemove={handleMove}
 	on:mouseup={handleEnd}
 	on:mouseleave={handleEnd}
-	on:touchstart={handleStart}
-	on:touchmove={handleMove}
+	on:touchstart|preventDefault={handleStart}
+	on:touchmove|preventDefault={handleMove}
 	on:click={() => (dimensionsInputVisible = false)}
     /> 
 </div>
