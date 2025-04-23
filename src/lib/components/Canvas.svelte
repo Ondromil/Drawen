@@ -257,6 +257,7 @@
 	on:touchmove|preventDefault
 	on:pointerdown={handleStart}
 	on:pointermove={handleMove}
+	on:pointerup={handleEnd}
 	on:pointerdown={globalMouseDown}
 	on:pointerup={globalMouseUp}
 	on:click={() => (dimensionsInputVisible = false)}
