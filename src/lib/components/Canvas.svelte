@@ -253,11 +253,12 @@
 	on:mousemove={handleMove}
 	on:mouseup={handleEnd}
 	on:mouseleave={handleEnd}
-	on:touchstart|preventDefault={handleStart}
-	on:touchstart|preventDefault={globalMouseDown}
-	on:touchmove|preventDefault={handleMove}
-	on:touchcancel|preventDefault={handleEnd}
-	on:touchcancel|preventDefault={globalMouseUp}
+	on:touchstart|preventDefault
+	on:touchmove|preventDefault
+	on:pointerdown={handleStart}
+	on:pointermove={handleMove}
+	on:pointerdown={globalMouseDown}
+	on:pointerup={globalMouseUp}
 	on:click={() => (dimensionsInputVisible = false)}
     /> 
 </div>
