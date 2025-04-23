@@ -255,6 +255,7 @@
 	on:mouseleave={handleEnd}
 	on:touchstart|preventDefault={handleStart}
 	on:touchmove|preventDefault={handleMove}
+	on:touchend|preventDefault={handleEnd}
 	on:click={() => (dimensionsInputVisible = false)}
     /> 
 </div>
