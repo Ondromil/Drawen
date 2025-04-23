@@ -32,6 +32,8 @@
 	let undoCanvases = [];
 	let redoCanvases = [];
 
+	let windowWidth;
+
 	onMount(() => {
 		ctx = canvas.getContext('2d');
 		bufferCtx = buffer.getContext('2d');
@@ -175,6 +177,8 @@
 
 </script>
 
+<svelte:window bind:innerWidth={windowWidth} />
+
 {#if navVisible}
 	<div class="h-[110px] w-full" in:fly|local={{ y: -100, duration: 500 }} />
 {/if}
@@ -249,6 +253,10 @@
 	on:mousemove={handleMove}
 	on:mouseup={handleEnd}
 	on:mouseleave={handleEnd}
+	on:touchstart|preventDefault
+	on:touchmove|preventDefault
+	on:pointerdown|preventDefault
+	on:pointermove|preventDefault
 	on:click={() => (dimensionsInputVisible = false)}
     /> 
 </div>
