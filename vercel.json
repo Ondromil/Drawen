@@ -1,6 +1,6 @@
 {
     "functions": {
-      "api/*": {
+      "api/tsconfig": {
         "runtime": "nodejs@18.20.8"
       }
     }
