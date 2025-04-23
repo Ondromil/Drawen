@@ -6,6 +6,8 @@
 	export let brushSize = 4;
 	export let opacity = 1;
 	export let navVisible = true;
+	export let bucketOn = false;
+	export let eraserOn = false;
 
 	let canvas: HTMLCanvasElement;
 	let ctx: CanvasRenderingContext2D;
@@ -40,9 +42,14 @@
 	});
 
 	$: if (ctx) {
-		ctx.strokeStyle = colorHexValue;
+		if (eraserOn) {
+			ctx.strokeStyle = "#FFFFFF"
+			ctx.globalAlpha = 100;
+		} else {
+		    ctx.strokeStyle = colorHexValue;
+			ctx.globalAlpha = opacity / 100;
+		}
 		ctx.lineWidth = brushSize;
-		ctx.globalAlpha = opacity / 100;
 	}
 
 	const handleStart = ({ offsetX: x, offsetY: y }) => {
@@ -57,19 +64,22 @@
 		redoCanvases = [];
 
 		isDrawing = true;
-		if (true) {
+		if (!bucketOn) {
 	    	ctx.lineCap = 'round';
 	        ctx.lineTo(x, y);
 		    ctx.stroke();
 		    ctx.beginPath();
 	     	ctx.moveTo(x, y);
-		}
+		} else {
+			ctx.fillStyle = colorHexValue;
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+		} 
 
 	};
 
 	const handleMove = ({ offsetX: x, offsetY: y }) => {
 		// Draws line made of circles
-		if (isDrawing && leftMouseDown) {
+		if (isDrawing && leftMouseDown && !bucketOn) {
 			ctx.lineCap = 'round';
 			ctx.lineTo(x, y);
 			ctx.stroke();
@@ -139,8 +149,6 @@
 
 	const handleUndo = () => {
 		if (undoCanvases.length > 0) {
-			ctx.fillStyle = 'white';
-	     	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	    	lastUndoCanvas = undoCanvases.pop()
 			redoCanvases.unshift(lastUndoCanvas);
 			console.log(redoCanvases)
@@ -150,8 +158,6 @@
 
 	const handleRedo = () => {
 		if (redoCanvases.length > 0) {
-			ctx.fillStyle = 'white';
-	        ctx.fillRect(0, 0, canvas.width, canvas.height);
 	     	undoCanvases.push(redoCanvases[0]);
 	    	nextRedoCanvas = redoCanvases.shift();
 			console.log(undoCanvases)
@@ -234,7 +240,6 @@
 		</ul>
 	</div>
 
-
 	<canvas
 	class="m-auto z-20"
 	width="1400"
@@ -245,12 +250,7 @@
 	on:mouseup={handleEnd}
 	on:mouseleave={handleEnd}
 	on:click={() => (dimensionsInputVisible = false)}
-     /> 
-	
-	
-
-
-
+    /> 
 </div>
 
 
@@ -258,10 +258,6 @@
 <canvas bind:this={buffer} width={bufferCanvasWidth} height={bufferCanvasHeight} class="hidden" />
 
 <canvas bind:this={undoCanvas} width={undoCanvasWidth} height={undoCanvasHeight} class="hidden"/>
-
-{#each Array(5) as _, i}
-     <canvas bind:this={undoCanvas} width={undoCanvasWidth} height={undoCanvasHeight} class="hidden"/>
-{/each}
 
 <svelte:body
 	on:mousedown={globalMouseDown}

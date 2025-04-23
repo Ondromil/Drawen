@@ -1,10 +1,13 @@
 <script lang="ts">
+   import { onMount } from 'svelte';
    import {fly} from "svelte/transition";
 
    export let colorHexValue: string;
    export let brushSize = 4;
    export let opacity = 100;
    export let navVisible = true;
+   export let bucketOn = true;
+   export let eraserOn = true;
 
    let sliderValue = 4;
    let opacitySliderValue = 100;
@@ -13,6 +16,14 @@
    let inputHex = '#';
    let visible = false;
    let ColorIndex;
+   let bucketIconFill: string;
+   let eraserIconFill: string;
+
+   onMount(() => {
+       handleBucket();
+       handleEraser();
+	});
+
 
    function handleColorButtonClick(colorIndex) {
       if (changingColor) {
@@ -68,6 +79,30 @@
       '#2DD4BF',
       '#4F46E5'
    ]
+
+   const handleBucket = () => {
+      if (bucketOn) {
+         bucketOn = false;
+         bucketIconFill = "#A6ADBB";
+      } else {
+         bucketOn = true;
+         bucketIconFill = "#CC493F";
+         eraserIconFill = "#A6ADBB";
+         eraserOn = false;
+      }
+   }
+
+   const handleEraser = () => {
+      if (eraserOn) {
+         eraserOn = false;
+         eraserIconFill = "#A6ADBB";
+      } else {
+         eraserOn = true;
+         eraserIconFill = "#CC493F";
+         bucketIconFill = "#A6ADBB";
+         bucketOn = false;
+      }
+  }
 </script>
 
 {#if navVisible}
@@ -85,8 +120,10 @@
       </div>
       <div class="block mr-6">
          <div class="flex flex-col">
-             <button class="btn btn-ghost btn-md"><img src="/bucket.svg" alt="bucket-button" width="32" height="32" /></button>
-             <button class="btn btn-ghost btn-md"><img src="/eraser-fill.svg" alt="eraser-button" width="32" height="32"/></button>
+             <button class="btn btn-ghost btn-md" on:click={handleBucket}><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill={bucketIconFill} d="M16.56 8.94L7.62 0L6.21 1.41l2.38 2.38l-5.15 5.15a1.49 1.49 0 0 0 0 2.12l5.5 5.5c.29.29.68.44 1.06.44s.77-.15 1.06-.44l5.5-5.5c.59-.58.59-1.53 0-2.12M5.21 10L10 5.21L14.79 10zM19 11.5s-2 2.17-2 3.5c0 1.1.9 2 2 2s2-.9 2-2c0-1.33-2-3.5-2-3.5M2 20h20v4H2z"/></svg></button>
+             <button class="btn btn-ghost btn-md" on:click={handleEraser}><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill={eraserIconFill} class="bi bi-eraser-fill" viewBox="0 0 16 16">
+               <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293z"/>
+             </svg></button>
          </div>
       </div>
       <div class="block">
