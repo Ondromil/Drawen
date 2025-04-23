@@ -37,6 +37,7 @@
 		"@jaames/iro": "^5.5.2",
 		"@sveltejs/adapter-node": "^1.0.1",
 		"@sveltejs/adapter-vercel": "^3.0.3",
-		"daisyui": "^2.51.5"
+		"daisyui": "^2.51.5",
+		"node": "^18.18.0"
 	}
 }
