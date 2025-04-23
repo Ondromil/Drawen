@@ -18,6 +18,14 @@
    let ColorIndex;
    let bucketIconFill: string;
    let eraserIconFill: string;
+   let arrayIndex;
+   let windowWidth;
+
+   $: if (windowWidth < 840) {
+      arrayIndex = 4;
+   } else {
+      arrayIndex = 8;
+   }
 
    onMount(() => {
        handleBucket();
@@ -107,7 +115,7 @@
 
 {#if navVisible}
    <nav class="navbar z-40 h-[110px] bg-[#2A303C] text-[#A6ADBB] fixed" in:fly|local="{{ y: -100, duration: 500 }}" out:fly|local="{{ y: -100, duration: 500 }}">
-      <div class="dropdown">
+      <div class="dropdown flex-1 lg:flex-none">
          <button class="btn btn-square btn-ghost">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
          </button>
@@ -115,7 +123,7 @@
              <li><a href="/about">About</a></li>
          </ul>
       </div>
-      <div class="flex-1">
+      <div class="hidden lg:block flex-1">
          <p class="text-3xl ml-4">Drawen.io</p>
       </div>
       <div class="block mr-6">
@@ -147,12 +155,12 @@
       </div>
       <div class="block mr-2">
          <ul class="flex gap-1.5">
-           {#each Array(8) as _, i}
+           {#each Array(arrayIndex) as _, i}
               <li><button style="background-color: {colors[i]};" class="btn btn-square btn-sm rounded-md" on:click={() => handleColorButtonClick(i)}></button></li>
            {/each}
          </ul>
          <ul class="flex gap-1.5">
-           {#each Array(8) as _, i}
+           {#each Array(arrayIndex) as _, i}
               <li><button style="background-color: {colors[i + 8]};" class="btn btn-square btn-sm rounded-md" on:click={() => handleColorButtonClick(i + 8)}></button></li>
            {/each}
          </ul>
@@ -169,6 +177,8 @@
       {/if}
    </nav>
 {/if}
+
+<svelte:window bind:innerWidth={windowWidth} />
 
 <style>
    .nav-range {
